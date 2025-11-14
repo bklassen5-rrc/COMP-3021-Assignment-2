@@ -1,0 +1,31 @@
+name: Bandit
+
+on:
+  push:
+    branches: [main]
+permissions:
+  security-events: write
+  # only required for workflows in private repositories
+  actions: read
+  contents: read
+
+jobs:
+  analyze:
+    runs-on:
+      ubuntu-latest
+      # required for all workflows
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Perform Bandit Analysis
+        uses: PyCQA/bandit-action@v1.0.1
+        with:
+          # Scans current directory (default)
+          targets: "."
+
+          # Default report for severity issues
+          severity: "all"
+
+          # Default report for confidence issues
+          confidence: "all"
